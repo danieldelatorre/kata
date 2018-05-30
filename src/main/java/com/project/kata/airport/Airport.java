@@ -30,35 +30,30 @@ public class Airport {
 
         if(!line.isEmpty()) {
 
-            for (int f = 0; f < rotor.length; f++) {
+            for (int rotorIndex = 0; rotorIndex < rotor.length; rotorIndex++) {
 
-                int flap = rotor[f];
+                int flap = rotor[rotorIndex];
 
-                if(flap>0) {
+                boolean isRotorValid = flap > 0;
 
-                    if (result.length() == line.length()) {
+                if (!isRotorValid) {
 
-                        line = result;
-                        result = result.substring(0, f);
-                    }
-
-                    for (int l = f; l < line.toCharArray().length; l++) {
-
-                        int first_apparition = ALPHABET.indexOf(line.toCharArray()[l]);
-
-                        char[] partial_alphabet = null;
-
-                        if (ALPHABET.length() >= first_apparition * 2 + flap + 1) {
-                            partial_alphabet = ALPHABET.substring(first_apparition, first_apparition + flap + 1).toCharArray();
-                        } else {
-                            int position = flap - (ALPHABET.length() - first_apparition);
-                            partial_alphabet = ALPHABET.substring(0, position + 1).toCharArray();
-                        }
-
-                        result += Character.toString(partial_alphabet[partial_alphabet.length - 1]);
-                    }
-                }else{
                     throw new Exception("the rotors contain a negative value");
+
+                }
+
+                if (result.length() == line.length()) {
+
+                    line = result;
+                    result = result.substring(0, rotorIndex);
+                }
+
+                for (int l = rotorIndex; l < line.toCharArray().length; l++) {
+
+                    String nextCharacter = extractNextCharacter(line.toCharArray()[l], flap);
+
+                    result += nextCharacter;
+
                 }
             }
         }
@@ -67,6 +62,22 @@ public class Airport {
         }
 
         return result;
+    }
+
+    private String extractNextCharacter(char characterTorotate, int flap) {
+
+        int first_apparition = ALPHABET.indexOf(characterTorotate);
+
+        char[] partial_alphabet = null;
+
+        if (ALPHABET.length() >= first_apparition * 2 + flap + 1) {
+            partial_alphabet = ALPHABET.substring(first_apparition, first_apparition + flap + 1).toCharArray();
+        } else {
+            int position = flap - (ALPHABET.length() - first_apparition);
+            partial_alphabet = ALPHABET.substring(0, position + 1).toCharArray();
+        }
+
+        return Character.toString(partial_alphabet[partial_alphabet.length - 1]);
     }
 
 }
