@@ -26,40 +26,42 @@ public class Airport {
 
     private String calculateline(int[] rotor, String line) throws Exception {
 
-        String result="";
+        String result = "";
 
-        if(!line.isEmpty()) {
+        if (line.isEmpty()) {
 
-            for (int rotorIndex = 0; rotorIndex < rotor.length; rotorIndex++) {
+            throw new Exception("the line format is incorrect");
 
-                int flap = rotor[rotorIndex];
+        }
+        for (int rotorIndex = 0; rotorIndex < rotor.length; rotorIndex++) {
 
-                boolean isRotorValid = flap > 0;
+            int flap = rotor[rotorIndex];
 
-                if (!isRotorValid) {
+            boolean isRotorValid = flap > 0;
 
-                    throw new Exception("the rotors contain a negative value");
+            if (!isRotorValid) {
 
-                }
+                throw new Exception("the rotors contain a negative value");
 
-                if (result.length() == line.length()) {
+            }
 
-                    line = result;
-                    result = result.substring(0, rotorIndex);
-                }
+            if (result.length() == line.length()) {
 
-                for (int l = rotorIndex; l < line.toCharArray().length; l++) {
+                line = result;
+                result = result.substring(0, rotorIndex);
+            }
 
-                    String nextCharacter = extractNextCharacter(line.toCharArray()[l], flap);
+            for (int l = rotorIndex; l < line.toCharArray().length; l++) {
 
-                    result += nextCharacter;
+                char currentCharacter = line.toCharArray()[l];
 
-                }
+                String nextCharacter = extractNextCharacter(currentCharacter, flap);
+
+                result += nextCharacter;
+
             }
         }
-        else{
-            throw new Exception("the line format is incorrect");
-        }
+
 
         return result;
     }
