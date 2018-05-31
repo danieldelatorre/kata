@@ -45,7 +45,7 @@ public class Airport {
 
             }
 
-            result=calculateNextStep(line,numberOfflaps,rotorIndex);
+            result=calculateNextLineValue(line,numberOfflaps,rotorIndex);
 
             line=result;
         }
@@ -70,7 +70,7 @@ public class Airport {
         return partial_alphabet[partial_alphabet.length - 1];
     }
 
-    private String calculateNextStep(String line, int numberOfFlaps, int rotorIndex){
+    private String calculateNextLineValue(String line, int numberOfFlaps, int rotorIndex){
 
         StringBuffer stepLine = new StringBuffer();
         stepLine.append(line);
