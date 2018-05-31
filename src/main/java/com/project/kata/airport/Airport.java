@@ -16,15 +16,14 @@ public class Airport {
 
             String line = lines[i];
 
-            result[i] = calculateline(rotors.get(i), line);
+            result[i] = calculateLine(rotors.get(i), line);
 
         }
 
         return result;
     }
 
-
-    private String calculateline(int[] rotor, String line) throws Exception {
+    private String calculateLine(int[] rotor, String line) throws Exception {
 
         String result = "";
 
@@ -88,4 +87,87 @@ public class Airport {
 
     }
 
+    //-------------------------------------------------------------------------------------------------------------------
+
+    public ArrayList<int[]> calculateLinesMoves(String[] before,String[] after) throws Exception{
+
+        ArrayList<int[]> listRotors = new ArrayList<int[]>();
+
+        for(int postionLine=0;postionLine<before.length;postionLine++){
+
+            int[] rotormoves =calculateLineMove(before[postionLine],after[postionLine]);
+            listRotors.add(rotormoves);
+        }
+        return listRotors;
+
+    }
+
+    private int[] calculateLineMove(String before,String after) throws Exception {
+
+        if(before==null || before.length()==0){
+            throw new Exception("the line is empty");
+        }
+
+        if(after==null || after.length()==0){
+            throw new Exception("the result line is empty");
+        }
+
+        int[] rotor=new int[before.length()];
+
+        for(int step=0; step<after.toCharArray().length;step++){
+
+            int flap = calculateStepFlap(step,before,after,rotor);
+            rotor[step] = flap;
+        }
+
+        return  rotor;
+    }
+
+    private int calculateStepFlap(int step,String before,String after,int[] previousNumberOfFlaps){
+
+        Character oldChar = before.charAt(step);
+        Character newChar = after.charAt(step);
+
+        int numberOfFlaps = getNewCharNumberOfFlaps(oldChar,newChar,previousNumberOfFlaps);
+
+        return numberOfFlaps;
+    }
+
+    private int getNewCharNumberOfFlaps(Character oldChar,Character newChar,int[] previousNumberOfFlaps){
+
+        int index=ALPHABET.indexOf(oldChar);
+
+        index = index +sumPreviousFlaps(previousNumberOfFlaps);
+
+        if(index > ALPHABET.length()){
+            index= (index +sumPreviousFlaps(previousNumberOfFlaps)) -ALPHABET.length();
+        }
+
+        int newIndex=ALPHABET.indexOf(newChar);
+
+        int numberOfFlaps=0;
+
+        if(newIndex<index){
+            numberOfFlaps = (ALPHABET.length() - index) + newIndex;
+        }
+        else {
+            if (newIndex > index) {
+                numberOfFlaps = newIndex - index;
+            }
+        }
+
+
+        return numberOfFlaps;
+
+    }
+
+    private int sumPreviousFlaps(int[] previousNumberOfFlaps){
+
+        int previousFlaps=0;
+
+        for(int previousFlap : previousNumberOfFlaps) {
+            previousFlaps +=previousFlap;
+        }
+        return previousFlaps;
+    }
 }
