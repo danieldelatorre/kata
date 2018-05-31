@@ -1,5 +1,6 @@
-package com.project.kata.kata;
+package com.project.kata.kata.berlingClock_kata;
 
+import com.project.kata.kata.BerlinClock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.project.kata.kata;
+package com.project.kata.kata.airport_kata;
 
 import com.project.kata.airport.Airport;
 import org.junit.Assert;
