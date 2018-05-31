@@ -22,7 +22,7 @@ public class AirportTest {
             String[] expected_result = {"DOG", "C!C"};
             String[] result = airport.calculateLines(lines, rotors);
             Assert.assertEquals(expected_result[0], result[0]);
-
+            Assert.assertEquals(expected_result[1], result[1]);
 
         }catch (Exception e){
             Assert.assertEquals("the line format is incorrect", e.getMessage());

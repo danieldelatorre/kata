@@ -35,9 +35,9 @@ public class Airport {
         }
         for (int rotorIndex = 0; rotorIndex < rotor.length; rotorIndex++) {
 
-            int flap = rotor[rotorIndex];
+            int numberOfflaps = rotor[rotorIndex];
 
-            boolean isRotorValid = flap > 0;
+            boolean isRotorValid = numberOfflaps > 0;
 
             if (!isRotorValid) {
 
@@ -45,28 +45,16 @@ public class Airport {
 
             }
 
-            if (result.length() == line.length()) {
+            result=calculateNextStep(line,numberOfflaps,rotorIndex);
 
-                line = result;
-                result = result.substring(0, rotorIndex);
-            }
-
-            for (int l = rotorIndex; l < line.toCharArray().length; l++) {
-
-                char currentCharacter = line.toCharArray()[l];
-
-                String nextCharacter = extractNextCharacter(currentCharacter, flap);
-
-                result += nextCharacter;
-
-            }
+            line=result;
         }
 
 
         return result;
     }
 
-    private String extractNextCharacter(char characterTorotate, int flap) {
+    private Character extractNextCharacter(char characterTorotate, int flap) {
 
         int first_apparition = ALPHABET.indexOf(characterTorotate);
 
@@ -79,7 +67,25 @@ public class Airport {
             partial_alphabet = ALPHABET.substring(0, position + 1).toCharArray();
         }
 
-        return Character.toString(partial_alphabet[partial_alphabet.length - 1]);
+        return partial_alphabet[partial_alphabet.length - 1];
+    }
+
+    private String calculateNextStep(String line, int numberOfFlaps, int rotorIndex){
+
+        StringBuffer stepLine = new StringBuffer();
+        stepLine.append(line);
+
+        for (int position = rotorIndex; position < line.toCharArray().length; position++) {
+
+            char characterToModify = line.toCharArray()[position];
+
+            Character nextCharacter = extractNextCharacter(characterToModify, numberOfFlaps);
+
+            stepLine.setCharAt(position,nextCharacter);
+        }
+
+        return stepLine.toString();
+
     }
 
 }
